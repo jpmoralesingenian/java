@@ -1,0 +1,6 @@
+{
+  "name": "Gorobeta SOLR Heroku",
+  "description": "A simple app to be deployed on heroku",
+  "image": "heroku/java",
+  "addons": [ ]
+}
