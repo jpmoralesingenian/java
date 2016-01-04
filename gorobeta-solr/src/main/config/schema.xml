@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="todo" version="1.5">
+<schema name="gorobeta" version="1.5">
     <fields>
         <field name="id" type="string" indexed="true" stored="true" required="true"/>
         <field name="title" type="text_general" indexed="true" stored="true" required="true" multiValued="false"/>
-        <field name="description" type="text_general" indexed="true" stored="false" multiValued="false"/>
-
-        <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+        <field name="description" type="text_general" indexed="true" stored="true" multiValued="false"/>
+	<field name="category" type="text_general" indexed="true" stored="true" multiValued="true"/>
+	<field name="price" type="currency" indexed="true" stored="true" multiValued="false"/>	
+	<field name="restaurant" type="text_general" indexed="true" stored="true" multiValued="false"/>
+        <field name="url" type="string" indexed="false" stored="true" required="false"/>
+	<field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
         <field name="_version_" type="long" indexed="true" stored="true"/>
     </fields>
 
@@ -16,6 +19,7 @@
 
     <types>
         <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="currency" class="solr.CurrencyField" precisionStep="2" defaultCurrency="COP" currencyConfig="currency.xml"/>
         <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
             <!-- Configures the analysis done at the index phase -->

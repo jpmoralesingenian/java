@@ -21,6 +21,7 @@
 <currencyConfig version="1.0">
   <rates>
     <!-- Updated from http://www.exchangerate.com/ at 2011-09-27 -->
+    <rate from="COP" to="USD" rate="2350.000" comment="Peso Colombiano"/>
     <rate from="USD" to="ARS" rate="4.333871" comment="ARGENTINA Peso" />
     <rate from="USD" to="AUD" rate="1.025768" comment="AUSTRALIA Dollar" />
     <rate from="USD" to="EUR" rate="0.743676" comment="European Euro" />

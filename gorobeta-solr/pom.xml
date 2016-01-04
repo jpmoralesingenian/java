@@ -39,6 +39,15 @@
                 <build.profile.id>heroku</build.profile.id>
             </properties>
         </profile>
+        <profile>
+            <id>amazon</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>amazon</build.profile.id>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <!-- SLF4J -->
