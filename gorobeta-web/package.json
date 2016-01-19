@@ -1,0 +1,8 @@
+{
+  "name": "Antojado.com",
+  "version": "1.0.0",
+  "description": "Buscador inteligente de opciones de comida en Bogotá",
+  "dependencies": {
+    "harp": "^0.20.1"
+  }
+}
