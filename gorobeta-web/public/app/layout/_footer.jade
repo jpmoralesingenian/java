@@ -1,0 +1,22 @@
+.container.footer
+    .row
+        //más opciones
+        .col-md-2.col-md-offset-6
+            b Otras funcionalidades
+            ul.list-unstyled
+                li: a(href="#/help#restaurantes") Publicar opciones
+                li: a(href="#/help#ayudanos") Reportar errores
+        //Enlaces de interés
+        .col-md-2
+            b Más sobre nosotros
+            ul.list-unstyled
+                li: a(href="#/help") Quiénes somos
+                li: a(href="#/contact") Contáctanos
+                li(ng-show="false"): a(href="/terms-conditions") Términos y condiciones
+                li(ng-show="false"): a(href="/privacy") Pólitica de privacidad
+        //Redes sociales
+        .col-md-2
+            b Encuéntranos en:
+            ul.list-inline
+                li: a(href="https://www.facebook.com/antojado.bogota/", target="_blank"): span.fa.fa-facebook-official.fa-2x
+                li: a(href="https://twitter.com/AntojadoB", target="_blank"): span.fa.fa-twitter.fa-2x

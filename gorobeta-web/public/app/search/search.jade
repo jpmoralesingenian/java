@@ -1,0 +1,121 @@
+//panel de navegación (Descubre, Compara, Disfruta)
+.container.nav-search
+    .row
+        .col-md-12
+            a.btn.btn-default.active(href="#/search")
+                span.fa.fa-search
+                |   Descubre
+            a.btn.btn-default(href="#/choose", ng-show="getOptions().length > 0")
+                span.fa.fa-check
+                |   Compara
+                span.badge  {{getOptions().length}}
+            a.btn.btn-default(href="#/enjoy", ng-show="getSelectedOptions().length > 0")
+                span.fa.fa-truck
+                |   Disfruta
+                span.badge  {{getSelectedOptions().length}}
+
+//Opción: DESCUBRE
+.container.discover(id="initSearch")
+    h3 Encuentra todo lo que quieras comer
+    //campos de búsqueda
+    .row.search-form
+        .col-md-12.form-inline
+            .form-group
+                label.sr-only Descripción:
+                input.form-control.search-text(type="text", ng-model="query.text", required)
+            .form-group
+                label.sr-only Precio:
+                select.form-control.search-price(ng-model="query.priceRange")
+                    option(ng-repeat="range in priceRanges", value="{{$index}}") {{range.sign}} {{range.amount}}
+            a.btn.btn-primary(type="submit", ng-click="search()")
+                span.glyphicon.glyphicon-search
+
+    //filtros seleccioados
+    .row.search-filters(ng-show="query.places.length > 0 || query.tags.length > 0")
+        .col-md-7.form-inline
+            .form-group.form-group-sm
+                .input-group(ng-show="query.places.length > 0")
+                    .input-group-addon(id="place-addon")
+                        i.fa.fa-home
+                    span.form-control(aria-describedby="place-addon")
+                        | {{query.places[0]}}
+                    .input-group-btn
+                        button.btn.btn-primary.btn-sm(type="button", ng-click="removePlaceFilter(query.places[0])", title="Quitar filtro")
+                            i.fa.fa-close
+                .input-group(ng-show="query.tags.length > 0")
+                    .input-group-addon(id="tag-addon")
+                        i.fa.fa-tag
+                    span.form-control(aria-describedby="tag-addon", ng-repeat="tagFilter in query.tags")
+                        span(ng-show="$index > 0")  /
+                        | {{tagFilter}}
+                    .input-group-btn
+                        button.btn.btn-primary.btn-sm(type="button", ng-click="removeTagsFilter()", title="Quitar filtro")
+                            i.fa.fa-close
+
+    //resultados de la búsqueda
+    .row.search-results(ng-show="response.docs.length > 0")
+        .col-md-7
+            p.results-caption Selecciona las opciones que más te atraigan para que luego las compares y decidas
+            //tabla de resultados
+            .list-group
+                .list-group-item(ng-repeat="result in response.docs")
+                    //datos básicos del resultado
+                    div(ng-click="selectResult($index, result)")
+                        span
+                            b.list-group-item-heading.result-name {{result.name | capitalizedName}}
+                            b.pull-right.result-price(ng-show="greaterThanZero(result.price)") {{result.price | solrPrice | number}}
+                        p.list-group-item-text.text-muted {{result.description[0]}}
+                    //ociones exixstentes sobre le resultado
+                    .result-options
+                        span.result-menu
+                            a(href="", ng-click="searchByPlace(result.restaurant)", title="ver todo el menú del sitio")
+                                i.fa.fa-book
+                        span.result-photo(ng-show="result.image_url")
+                            a(href="", ng-click="showMoreResult(result)", data-toggle="modal" data-target="#resultModal", title="ver foto")
+                                i.fa.fa-camera
+                        span.result-place
+                            i.fa.fa-home
+                            a(href='#/search', ng-click="selectPlace(result.restaurant)", title="ver resultados de este sitio")  {{result.restaurant}}
+                        span.result-tags(ng-show="result.tag.length > 0")
+                            i.fa.fa-tag
+                            span.text-capitalize(ng-repeat="tag in result.tag")
+                                a(href='#/search', ng-click="selectTag(result, tag)", title="ver resultados de esta caregoría")  {{tag}}
+                                span(ng-show="$index < result.tag.length - 1")  /
+            //paginador de la tabla de resultados
+            ul.pagination.center
+                li
+                    a(href="#/search", aria-label="Anterior", ng-click="showPreviousPage()")
+                        span(aria-hidden="true") &laquo;
+                li(ng-repeat="page in paginator")
+                    a(href="#/search", ng-click="showPage(page)") {{page}}
+                li
+                    a(href="#/search", aria-label="Siguiente", ng-click="showNextPage()")
+                        span(aria-hidden="true") &raquo;
+
+            //convenciones de las acciones de cada resultado
+            .results-convenciones
+                h5 Acciones sobre los resultados de búsqueda:
+                ul.list-unstyled.text-muted
+                    li
+                        i.fa.fa-book
+                        |  = mostrar todas las opciones del sitio
+                    li
+                        i.fa.fa-camera
+                        |  = mostrar foto disponible de la opción
+                    li
+                        i.fa.fa-home
+                        |  = mostrar solo las opciones relvantes del sitio
+                    li
+                        i.fa.fa-tag
+                        |  = mostrar solo las opciones clasificadas con la misma categoría
+
+        //modal donde se muestra la imagen del resultado seleccionado
+        .modal.fade(id="resultModal", tabindex="-1", role="dialog", aria-labelledby="myModalLabel", ng-show="selectedResult != null")
+            .modal-dialog.modal-sm(role="document")
+                .modal-content
+                    .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close", ng-click="selectedResult = null;")
+                            span(aria-hidden="true") &times;
+                        h4.modal-title {{selectedResult.name}}
+                    .modal-body
+                        img(ng-src="{{selectedResult.image_url}}")

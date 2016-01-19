@@ -1,0 +1,45 @@
+//panel de navegación (Descubre, Compara, Disfruta)
+.container.nav-search
+    .row
+        .col-md-12
+            a.btn.btn-default(href="#/search")
+                span.fa.fa-search
+                |   Descubre
+            a.btn.btn-default(href="#/choose", ng-show="getOptions().length > 0")
+                span.fa.fa-check
+                |   Compara
+                span.badge  {{getOptions().length}}
+            a.btn.btn-default.active(href="#/enjoy", ng-show="getSelectedOptions().length > 0")
+                span.fa.fa-truck
+                |   Disfruta
+                span.badge  {{getSelectedOptions().length}}
+
+//opción: DISFRUTA
+.container.enjoy
+    .row
+        .col-md-7
+            h3 Conoce cómo disfrutar de tus opciones
+            br
+            .list-group
+                p.results-caption Estos son algunos de los servicios que podrían llevarte a domicilio las opciones seleccionadas **
+                    .list-group-item(ng-repeat="resumeItem in optionsResume")
+                        b.result-name {{resumeItem.restaurant}}
+                        ul.resume-restaurant
+                            li(ng-repeat="option in resumeItem.options")
+                                span
+                                    b {{option.name}}
+                                    b.pull-right(ng-show="greaterThanZero(option.price)") {{option.price | solrPrice | number}}
+                                p.list-group-item-text.text-muted {{option.description[0]}}
+                        //ociones exixstentes sobre le resultado
+                        .result-options.text-right
+                            ul.list-inline
+                                li(ng-repeat="service in resumeItem.deliveryServices")
+                                    a(href="{{service.url}}", target="_blank")
+                                        img.option-delivery(ng-src="img/{{service.logo_url}}", alt="{{service.name}}")
+            .disclaimers
+                h5 ** Términos y condiciones
+                ol
+                    li Los precios de las opciones son tentativos y pueden variar de acuerdo a cambios hechos por los establecimientos, que no hayan sido actualizados en Antojado.com.
+                    li Los precios de las opciones pueden se distintos en cada servicio de domicilio de acuerdo con sus acuerdos y políticas.
+                    li Debes validar con cada servicio de domicilio si tienen cobertura en la zona donde estás.
+                    li El proceso y las herramientas para solicitar finalmente un pedido depende de cada proveedor.

@@ -1,0 +1,45 @@
+.container
+    //Sección: intro
+    .row.intro
+        .col-md-12.text-center
+            h1.text-uppercase Decide fácil qué comer
+            p.lead Descubre todas las opciones con las que puedes calmar tus antojos en Bogotá
+        .col-md-8.col-md-offset-2.home-search-form
+            form.css-form(action="#/search?text={{query.text}}&priceRange={{query.priceRange}}")
+                .input-group.input-group-lg
+                    input.form-control.input-lg(type="text", id="text" aria-describedby="textStatus"
+                        placeholder="Ejemplo: carne tomate esparragos", ng-model="query.text", required)
+                    .input-group-btn
+                        .btn-group
+                            select.form-control.input-lg(ng-model="query.priceRange")
+                                option(style="color:grey;", value="", selected, disabled) Precio
+                                option(ng-repeat="range in priceRanges", value="{{$index}}") {{range.sign}} {{range.amount}}
+                        button.btn.btn-primary(type="submit") Descubrir
+                p Describe los ingredientes y/o sabores que quisieras, y el precio máximo dispuesto a pagar
+    .row.intro-2
+        .col-md-8.col-md-offset-2.text-center
+            h4 Busca libremente y descubre nuevas opciones
+            p.text-muted ¿No sabes dónde y qué comer?, ¿no tienes idea cómo se llama el plato que quisieras?. No intentes clasificar tus gustos o sabores preferidos, busca fácil y directamente lo que quieres disfrutar, y conoce la amplia oferta de lugares que tienen algo para ti.
+    //Sección: Como funciona
+    .row.how-works
+        h4 ¿Qué tiene Antojado para ti?
+        .col-md-3.feature
+            span.fa.fa-search.fa-3x.text-primary
+            p.feature-name Búsqueda inteligente
+            p.feature-description.text-muted
+                | Busca opciones de comida que contengan los sabores que quieres disfrutar
+        .col-md-3.feature
+            span.me.featuredia-object.fa.fa-users.fa-3x.text-primary
+            p.feature-name Referencias válidas
+            p.feature-description.text-muted
+                | Conoce qué opciones recomiendan tus amigos y personas cercanas
+        .col-md-3.feature
+            span.media-object.fa.fa-truck.fa-3x.text-primary
+            p.feature-name Domicilios
+            p.feature-description.text-muted
+                | Encuentra quién y cómo pueden llevar tus opciones favoritas donde estés
+        .col-md-3.feature
+            span.media-object.fa.fa-bookmark.fa-3x.text-primary
+            p.feature-name Recordatorios
+            p.feature-description.text-muted
+                | Registra sitios y platos que te recomienden para disfrutar más adelante

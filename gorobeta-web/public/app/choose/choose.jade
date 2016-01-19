@@ -1,0 +1,48 @@
+//panel de navegación (Descubre, Compara, Disfruta)
+.container.nav-search
+    .row
+        .col-md-12
+            a.btn.btn-default(href="#/search")
+                span.fa.fa-search
+                |   Descubre
+            a.btn.btn-default.active(href="#/choose", ng-show="getOptions().length > 0")
+                span.fa.fa-check
+                |   Compara
+                span.badge  {{getOptions().length}}
+            a.btn.btn-default(href="#/enjoy", ng-show="getSelectedOptions().length > 0")
+                span.fa.fa-truck
+                |   Disfruta
+                span.badge  {{getSelectedOptions().length}}
+
+.container.choose
+    h3 Revisa y decide qué opciones quieres
+    //herramientas de ordenamiento
+    .row.choose-order
+        .col-md-7.form-inline
+            span.label.label-primary Ordena por:
+            i.fa.fa-home
+            a(href="#/choose", ng-click="orderOptionsByPlace()") Sitio
+            i.fa.fa-usd
+            a(href="#/choose", ng-click="orderOptionsByPrice()") Precio
+
+    //opciones seleccionadas para comparar
+    .row.choose-options
+        .col-md-7
+            .list-group(ng-show="getOptions().length > 0")
+                p.results-caption Selecciona las opciones que quisieras disfrutar
+                .list-group-item(ng-repeat="result in getOptions()", ng-class="getSelectedClass(result)")
+                    div(ng-click="selectOption(result)")
+                        span
+                            b.list-group-item-heading.result-name {{result.name}}
+                            b.pull-right.result-price(ng-show="greaterThanZero(result.price)") {{result.price | solrPrice | number}}
+                        p.list-group-item-text.text-muted {{result.description[0]}}
+                    //ociones exixstentes sobre le resultado
+                    .result-options
+                        span.result-place
+                            i.fa.fa-home
+                            | {{result.restaurant}}
+                        span.result-tags(ng-show="result.tag.length > 0")
+                            i.fa.fa-tag
+                            span.text-capitalize(ng-repeat="tag in result.tag")
+                                | {{tag}}
+                                span(ng-show="$index < result.tag.length - 1")  /
